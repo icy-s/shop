@@ -1,0 +1,30 @@
+﻿@model IEnumerable<shop.Models.Spaceships.SpaceshipsIndexViewModel>
+
+<div class="h1">
+    Spaceships
+</div>
+<form action="/" method="post">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nr</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Build Date</th>
+                <th scope="col">Crew</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var spaceships in Model)
+            {
+                <tr>
+                    <td>Nr</td>
+                    <td>@spaceships.Name</td>
+                    <td>@spaceships.TypeName</td>
+                    <td>@spaceships.BuiltDate</td>
+                    <td>@spaceships.Crew</td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+</form>
