@@ -61,5 +61,26 @@ namespace shop.ApplicationServices.Services
 
             return spaceship;
         }
+
+        public async Task<Spaceship> Update(SpaceshipDto dto)
+        {
+            Spaceship domain = new();
+
+            domain.Id = dto.Id;
+            domain.Name = dto.Name;
+            domain.TypeName = dto.TypeName;
+            domain.BuiltDate = dto.BuiltDate;
+            domain.Crew = dto.Crew;
+            domain.EnginePower = dto.EnginePower;
+            domain.Passengers = dto.Passengers;
+            domain.InnerVolume = dto.InnerVolume;
+            domain.CreatedAt = dto.CreatedAt;
+            domain.ModifiedAt = DateTime.Now;
+
+            _context.Spaceships.Update(domain);
+            await _context.SaveChangesAsync();
+
+            return domain;
+        }
     }
 }
