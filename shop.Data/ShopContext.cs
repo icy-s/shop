@@ -12,7 +12,7 @@ namespace shop.Data
     {
         public ShopContext(DbContextOptions<ShopContext> options)
         : base(options){ }
-        public DbSet<Spaceship> Spaceships { get; set; }
+        public DbSet<Kindergarten> Kindergarten { get; set; }
 
         public DbSet<FileToApi> FileToApis { get; set; }
     }
