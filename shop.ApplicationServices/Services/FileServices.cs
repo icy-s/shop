@@ -22,7 +22,7 @@ namespace shop.ApplicationServices.Services
             _webHost = webHost;
         }
 
-        public void FilesToApi(SpaceshipDto dto, Spaceship spaceship)
+        public void FilesToApi(KindergartenDto dto, Kindergarten kindergarten)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
@@ -47,7 +47,7 @@ namespace shop.ApplicationServices.Services
                         {
                             Id = Guid.NewGuid(),
                             ExistingFilePath = uniqueFileName,
-                            SpaceshipId = spaceship.Id
+                            KindergartenId = kindergarten.id
                         };
 
                         _context.FileToApis.AddAsync(path);

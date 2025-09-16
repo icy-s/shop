@@ -38,10 +38,10 @@ namespace shop.ApplicationServices.Services
 
             _fileServices.FilesToApi(dto, kindergarten);
 
-            await _context.Spaceships.AddAsync(spaceship);
+            await _context.Kindergarten.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
 
-            return spaceship;
+            return kindergarten;
         }
     }
 }
