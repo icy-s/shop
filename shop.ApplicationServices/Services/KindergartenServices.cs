@@ -43,5 +43,39 @@ namespace shop.ApplicationServices.Services
 
             return kindergarten;
         }
+        public async Task<Kindergarten> DetailAsync(Guid id)
+        {
+            var result = await _context.Kindergarten
+                .FirstOrDefaultAsync(x => x.id == id);
+
+            return result;
+        }
+        public async Task<Kindergarten> Delete(Guid id)
+        {
+            var kindergarten = await _context.Kindergarten
+                .FirstOrDefaultAsync(x => x.id == id);
+
+            _context.Kindergarten.Remove(kindergarten);
+            await _context.SaveChangesAsync();
+
+            return kindergarten;
+        }
+        public async Task<Kindergarten> Update(KindergartenDto dto)
+        {
+            Kindergarten domain = new();
+
+            domain.id = dto.id;
+            domain.GroupName = dto.GroupName;
+            domain.ChildrenCount = dto.ChildrenCount;
+            domain.KindergartenName = dto.KindergartenName;
+            domain.TeacherName = dto.TeacherName;
+            domain.CreatedAt = dto.CreatedAt;
+            domain.UpdatedAt = DateTime.Now;
+
+            _context.Kindergarten.Update(domain);
+            await _context.SaveChangesAsync();
+
+            return domain;
+        }
     }
 }
