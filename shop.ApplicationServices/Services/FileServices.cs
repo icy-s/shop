@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
 using shop.Core.Domain;
 using shop.Core.Dto;
+using shop.Core.ServiceInterface;
 using shop.Data;
 using System.Runtime.InteropServices;
 
 namespace shop.ApplicationServices.Services
 {
-    public class FileServices
+    public class FileServices : IFileServices
     {
         private readonly ShopContext _context;
         private readonly IHostEnvironment _webHost;
