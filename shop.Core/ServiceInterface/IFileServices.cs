@@ -10,6 +10,6 @@ namespace shop.Core.ServiceInterface
 {
     public interface IFileServices
     {
-        void FilesToApi(SpaceshipDto dto, Spaceship spaceship);
+        void FilesToApi(KindergartenDto dto, Kindergarten kindergarten);
     }
 }
