@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace shop.Core.Domain
+namespace shop.Core.Dto
 {
-    public class Kindergarten
+    public class KindergartenDto
     {
         public Guid id { get; set; }
         public string? GroupName { get; set; }
