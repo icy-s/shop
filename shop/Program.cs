@@ -20,6 +20,7 @@ namespace shop
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
+            builder.Services.AddScoped<IFileServices, FileServices>();
 
             var app = builder.Build();
 
