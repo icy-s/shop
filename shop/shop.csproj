@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
       <PrivateAssets>all</PrivateAssets>
@@ -22,6 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\shop.ApplicationServices\shop.ApplicationServices.csproj" />
     <ProjectReference Include="..\shop.Data\shop.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\multipleFileUpload\" />
   </ItemGroup>
 
 </Project>

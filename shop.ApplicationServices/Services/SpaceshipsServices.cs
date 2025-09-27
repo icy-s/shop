@@ -16,6 +16,7 @@ namespace shop.ApplicationServices.Services
         private readonly ShopContext _context;
         private readonly IFileServices _fileServices;
 
+        // teha constructor
         public SpaceshipsServices
             (
                 ShopContext context,
@@ -42,7 +43,7 @@ namespace shop.ApplicationServices.Services
 
             _fileServices.FilesToApi(dto, spaceship);
 
-            await _context.Spaceships.AddAsync(spaceship);
+            await _context.Spaceships.AddAsync( spaceship );
             await _context.SaveChangesAsync();
 
             return spaceship;
@@ -51,22 +52,32 @@ namespace shop.ApplicationServices.Services
         public async Task<Spaceship> DetailAsync(Guid id)
         {
             var result = await _context.Spaceships
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync( x => x.Id == id );
 
             return result;
         }
-
-        public async Task<Spaceship> Delete(Guid id)
+        public async Task <Spaceship>Delete(Guid id)
         {
             var spaceship = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.FileToApis
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new FileToApiDto
+                {
+                    Id = y.Id,
+                    SpaceshipId = y.SpaceshipId,
+                    ExistingFilePath = y.ExistingFilePath,
+                }).ToArrayAsync();
+
+            await _fileServices.RemoveImagesFromApi(images);
+
 
             _context.Spaceships.Remove(spaceship);
             await _context.SaveChangesAsync();
 
             return spaceship;
         }
-
         public async Task<Spaceship> Update(SpaceshipDto dto)
         {
             Spaceship domain = new();
@@ -81,6 +92,8 @@ namespace shop.ApplicationServices.Services
             domain.InnerVolume = dto.InnerVolume;
             domain.CreatedAt = dto.CreatedAt;
             domain.ModifiedAt = DateTime.Now;
+
+            _fileServices.FilesToApi(dto, domain);
 
             _context.Spaceships.Update(domain);
             await _context.SaveChangesAsync();
