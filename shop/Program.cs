@@ -19,6 +19,7 @@ namespace shop
             builder.Services.AddDbContext<ShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IRealEstateServices, RealEstateServices>();
             builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
 

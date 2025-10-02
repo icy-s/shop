@@ -5,6 +5,7 @@ using shop.ApplicationServices.Services;
 using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
+using shop.Models.RealEstate;
 using shop.Models.Spaceships;
 
 namespace shop.Controllers
@@ -30,14 +31,14 @@ namespace shop.Controllers
 
         public IActionResult Index()
         {
-            var result = _context.Spaceships
+            var result = _context.RealEstates
                 .Select(x => new RealEstateIndexViewModel
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    BuiltDate = x.BuiltDate,
-                    TypeName = x.TypeName,
-                    Crew = x.Crew,
+                    Area = x.Area,
+                    Location = x.Location,
+                    RoomNumber = x.RoomNumber,
+                    BuildingType = x.BuildingType,
                 });
 
 
@@ -87,13 +88,13 @@ namespace shop.Controllers
 
             var vm = new RealEstateDeleteViewModel();
 
-            vm.Id = realestate.Id,
-            vm.Area = realestate.Area,
-            vm.Location = realestate.Location,
-            vm.RoomNumber = realestate.RoomNumber,
-            vm.BuildingType = realestate.BuildingType,
-            vm.CreatedAt = realestate.CreatedAt,
-            vm.ModifiedAt = realestate.ModifiedAt,
+            vm.Id = realestate.Id;
+            vm.Area = realestate.Area;
+            vm.Location = realestate.Location;
+            vm.RoomNumber = realestate.RoomNumber;
+            vm.BuildingType = realestate.BuildingType;
+            vm.CreatedAt = realestate.CreatedAt;
+            vm.ModifiedAt = realestate.ModifiedAt;
 
             return View(vm);
         }
@@ -124,13 +125,13 @@ namespace shop.Controllers
 
             var vm = new RealEstateCreateUpdateViewModel();
 
-            vm.Id = update.Id,
-            vm.Area = update.Area,
-            vm.Location = update.Location,
-            vm.RoomNumber = update.RoomNumber,
-            vm.BuildingType = update.BuildingType,
-            vm.CreatedAt = update.CreatedAt,
-            vm.ModifiedAt = update.ModifiedAt,
+            vm.Id = update.Id;
+            vm.Area = update.Area;
+            vm.Location = update.Location;
+            vm.RoomNumber = update.RoomNumber;
+            vm.BuildingType = update.BuildingType;
+            vm.CreatedAt = update.CreatedAt;
+            vm.ModifiedAt = update.ModifiedAt;
 
             return View("CreateUpdate", vm);
         }
@@ -162,7 +163,7 @@ namespace shop.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var realestate = await _realestateervices.DetailAsync(id);
+            var realestate = await _realestateServices.DetailAsync(id);
 
             if (realestate == null)
             {
@@ -171,13 +172,13 @@ namespace shop.Controllers
 
             var vm = new RealEstateDetailsViewModel();
 
-            vm.Id = realestate.Id,
-            vm.Area = realestate.Area,
-            vm.Location = realestate.Location,
-            vm.RoomNumber = realestate.RoomNumber,
-            vm.BuildingType = realestate.BuildingType,
-            vm.CreatedAt = realestate.CreatedAt,
-            vm.ModifiedAt = realestate.ModifiedAt,
+            vm.Id = realestate.Id;
+            vm.Area = realestate.Area;
+            vm.Location = realestate.Location;
+            vm.RoomNumber = realestate.RoomNumber;
+            vm.BuildingType = realestate.BuildingType;
+            vm.CreatedAt = realestate.CreatedAt;
+            vm.ModifiedAt = realestate.ModifiedAt;
 
             return View(vm);
         }
