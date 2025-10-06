@@ -152,5 +152,28 @@ namespace shop.Controllers
 
             return RedirectToAction(nameof(Index), vm);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var kindergarten = await _kindergartenServices.DetailAsync(id);
+
+            if (kindergarten == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new KindergartenDetailsViewModel();
+
+            vm.id = kindergarten.id;
+            vm.GroupName = kindergarten.GroupName;
+            vm.ChildrenCount = kindergarten.ChildrenCount;
+            vm.KindergartenName = kindergarten.KindergartenName;
+            vm.TeacherName = kindergarten.TeacherName;
+            vm.CreatedAt = kindergarten.CreatedAt;
+            vm.UpdatedAt = kindergarten.UpdatedAt;
+
+            return View(vm);
+        }
     }
 }
