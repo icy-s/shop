@@ -57,8 +57,8 @@ namespace shop.Controllers
                 ChildrenCount = vm.ChildrenCount,
                 KindergartenName = vm.KindergartenName,
                 TeacherName = vm.TeacherName,
-                CreatedAt = vm.CreatedAt,
-                UpdatedAt = vm.UpdatedAt
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
             var result = await _kindergartenServices.Create(dto);
