@@ -33,6 +33,11 @@ namespace shop.ApplicationServices.Services
                 realestate.CreatedAt = DateTime.Now;
                 realestate.ModifiedAt = DateTime.Now;
 
+                if (dto.Files != null)
+                {
+                    _fileServices.UploadFilesToDatabase(dto, realestate);
+                }
+
                 await _context.RealEstates.AddAsync(realestate);
                 await _context.SaveChangesAsync();
 
@@ -70,6 +75,7 @@ namespace shop.ApplicationServices.Services
 
                 _context.RealEstates.Update(domain);
                 await _context.SaveChangesAsync();
+                _fileServices.UploadFilesToDatabase(dto, domain);
 
                 return domain;
             }

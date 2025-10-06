@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using shop.Core.Domain;
 using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
-using Microsoft.EntityFrameworkCore;
+using shop.Data.Migrations;
 using System.Runtime.InteropServices;
+using RealEstate = shop.Core.Domain.RealEstate;
 
 namespace shop.ApplicationServices.Services
 {
@@ -34,7 +36,7 @@ namespace shop.ApplicationServices.Services
 
                 foreach (var file in dto.Files)
                 {
-                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath,"wwwroot", "multipleFileUpload");
+                    string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
 
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
 
@@ -57,7 +59,7 @@ namespace shop.ApplicationServices.Services
             }
         }
 
-                    public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
+        public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             //meil on vaja leida file andmebaasist läbi id ülesse
             var imageId = await _context.FileToApis
@@ -100,6 +102,30 @@ namespace shop.ApplicationServices.Services
             }
 
             return null;
+        }
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            // ära kontrollimine, kas on üks fail või mitu
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                // kui tuleb mitu faili, kasutatakse foreach
+                foreach (var file in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            RealEstateId = domain.Id
+                        };
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FileToDatabase.Add(files);
+                    }
+                }
+            }
         }
     }
 }
