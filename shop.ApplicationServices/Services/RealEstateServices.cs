@@ -70,12 +70,13 @@ namespace shop.ApplicationServices.Services
                 domain.Location = dto.Location;
                 domain.RoomNumber = dto.RoomNumber;
                 domain.BuildingType = dto.BuildingType;
-                domain.CreatedAt = dto.CreatedAt;
+                domain.CreatedAt = DateTime.Now;
                 domain.ModifiedAt = DateTime.Now;
+
+                _fileServices.UploadFilesToDatabase(dto, domain);
 
                 _context.RealEstates.Update(domain);
                 await _context.SaveChangesAsync();
-                _fileServices.UploadFilesToDatabase(dto, domain);
 
                 return domain;
             }

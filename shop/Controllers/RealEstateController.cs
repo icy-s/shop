@@ -17,6 +17,21 @@ namespace shop.Controllers
         private readonly IRealEstateServices _realestateServices;
         private readonly IFileServices _fileServices;
 
+        public async Task<RealEstateImageViewModel[]> ImageShowcase(Guid id)
+        {
+            var photos = await _context.FileToDatabase
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new RealEstateImageViewModel
+                {
+                    RealEstateId = y.RealEstateId,
+                    Id = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64, {0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            return photos;
+        }
 
         public RealEstateController
             (
@@ -96,6 +111,8 @@ namespace shop.Controllers
                 return NotFound();
             }
 
+            var photos = await ImageShowcase(id);
+
             var vm = new RealEstateDeleteViewModel();
 
             vm.Id = realestate.Id;
@@ -105,6 +122,7 @@ namespace shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = realestate.CreatedAt;
             vm.ModifiedAt = realestate.ModifiedAt;
+            vm.Image.AddRange(photos);
 
             return View(vm);
         }
@@ -133,6 +151,8 @@ namespace shop.Controllers
                 return NotFound();
             }
 
+            var photos = await ImageShowcase(id);
+
             var vm = new RealEstateCreateUpdateViewModel();
 
             vm.Id = update.Id;
@@ -142,6 +162,7 @@ namespace shop.Controllers
             vm.BuildingType = update.BuildingType;
             vm.CreatedAt = update.CreatedAt;
             vm.ModifiedAt = update.ModifiedAt;
+            vm.Image.AddRange(photos);
 
             return View("CreateUpdate", vm);
         }
@@ -158,6 +179,15 @@ namespace shop.Controllers
                 BuildingType = vm.BuildingType,
                 CreatedAt = vm.CreatedAt,
                 ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.Id,
+                        ImageTitle = x.ImageTitle,
+                        ImageData = x.ImageData,
+                        RealEstateId = x.RealEstateId
+                    }).ToArray()
             };
 
             var result = await _realestateServices.Update(dto);
@@ -180,6 +210,8 @@ namespace shop.Controllers
                 return NotFound();
             }
 
+            var photos = await ImageShowcase(id);
+
             var vm = new RealEstateDetailsViewModel();
 
             vm.Id = realestate.Id;
@@ -189,6 +221,7 @@ namespace shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = realestate.CreatedAt;
             vm.ModifiedAt = realestate.ModifiedAt;
+            vm.Image.AddRange(photos);
 
             return View(vm);
         }

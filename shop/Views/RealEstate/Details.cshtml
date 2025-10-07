@@ -54,6 +54,11 @@
         </div>
     </dl>
 
+    @foreach (var images in Model.Image)
+    {
+        <partial name="_Images" model="images" />
+    }
+
     <form asp-action="Back">
         <a asp-action="index" asp-controller="realestate" class="btn btn-primary">Back</a>
     </form>
