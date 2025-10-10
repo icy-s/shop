@@ -9,7 +9,7 @@ namespace shop.Core.Dto
 {
     public class KindergartenDto
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public string? GroupName { get; set; }
         public int ChildrenCount { get; set; }
         public string? KindergartenName { get; set; }
@@ -17,5 +17,7 @@ namespace shop.Core.Dto
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToApiDto> FileToApiDtos { get; set; }
+= new List<FileToApiDto>();
     }
 }

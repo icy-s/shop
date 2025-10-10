@@ -1,6 +1,6 @@
 ﻿@model shop.Models.Kindergarten.KindergartenCreateUpdateViewModel
 
-@if (Model.id != Guid.Empty)
+@if (Model.Id != Guid.Empty)
 {
     <h1>Update</h1>
 }
@@ -11,7 +11,7 @@ else
 
 <div>
     <form method="post" enctype="multipart/form-data">
-        <input asp-for="id" type="hidden"/>
+        <input asp-for="Id" type="hidden"/>
         <input asp-for="CreatedAt" type="hidden"/>
         <input asp-for="UpdatedAt" type="hidden" />
 
@@ -43,7 +43,22 @@ else
             </div>
         </div>
 
-        @if (Model.id != Guid.Empty)
+        <div class="form-group row">
+            <label asp-for="Files" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-5">
+                <div class="custom-file">
+                    <input asp-for="Files" class="form-control" multiple type="file" />
+                </div>
+            </div>
+        </div>
+
+        @foreach (var images in Model.Images)
+        {
+            <partial name="_Images" model="images" />
+            <input asp-action="removeImage" asp-controller="kindergarten" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
+        }
+
+        @if (Model.Id != Guid.Empty)
         {
             <input asp-action="update" asp-controller="kindergarten" type="submit" class="btn btn-primary" value="Update" />
         }

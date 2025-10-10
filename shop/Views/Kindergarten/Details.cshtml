@@ -7,8 +7,8 @@
     <hr />
     <dl class="row">
         <div class="form-group row">
-            <label asp-for=id" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(Model => Model.id)
+            <label asp-for=Id" class="col-sm-2 col-form-label"></label>
+            @Html.DisplayFor(Model => Model.Id)
         </div>
     </dl>
 
@@ -53,6 +53,11 @@
             @Html.DisplayFor(Model => Model.UpdatedAt)
         </div>
     </dl>
+
+    @foreach (var images in Model.Image)
+    {
+        <partial name="_Images" model="images" />
+    }
 
     <form asp-action="Back">
         <a asp-action="index" asp-controller="kindergarten" class="btn btn-primary">Back</a>

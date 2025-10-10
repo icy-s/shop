@@ -28,7 +28,7 @@ namespace shop.ApplicationServices.Services
         {
             Kindergarten kindergarten = new Kindergarten();
 
-            kindergarten.id = Guid.NewGuid();
+            kindergarten.Id = Guid.NewGuid();
             kindergarten.GroupName = dto.GroupName;
             kindergarten.ChildrenCount = dto.ChildrenCount;
             kindergarten.KindergartenName = dto.KindergartenName;
@@ -46,14 +46,25 @@ namespace shop.ApplicationServices.Services
         public async Task<Kindergarten> DetailAsync(Guid id)
         {
             var result = await _context.Kindergarten
-                .FirstOrDefaultAsync(x => x.id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             return result;
         }
         public async Task<Kindergarten> Delete(Guid id)
         {
             var kindergarten = await _context.Kindergarten
-                .FirstOrDefaultAsync(x => x.id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.FileToApis
+            .Where(x => x.KindergartenId == id)
+            .Select(y => new FileToApiDto
+            {
+                Id = y.Id,
+                KindergartenId = y.KindergartenId,
+                ExistingFilePath = y.ExistingFilePath,
+            }).ToArrayAsync();
+
+            await _fileServices.RemoveImagesFromApi(images);
 
             _context.Kindergarten.Remove(kindergarten);
             await _context.SaveChangesAsync();
@@ -64,13 +75,15 @@ namespace shop.ApplicationServices.Services
         {
             Kindergarten domain = new();
 
-            domain.id = dto.id;
+            domain.Id = dto.Id;
             domain.GroupName = dto.GroupName;
             domain.ChildrenCount = dto.ChildrenCount;
             domain.KindergartenName = dto.KindergartenName;
             domain.TeacherName = dto.TeacherName;
             domain.CreatedAt = dto.CreatedAt;
             domain.UpdatedAt = DateTime.Now;
+
+            _fileServices.FilesToApi(dto, domain);
 
             _context.Kindergarten.Update(domain);
             await _context.SaveChangesAsync();

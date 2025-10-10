@@ -25,10 +25,24 @@ namespace shop.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FileToDatabase",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageData = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    KindergartenId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileToDatabase", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Kindergarten",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GroupName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ChildrenCount = table.Column<int>(type: "int", nullable: false),
                     KindergartenName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -38,7 +52,7 @@ namespace shop.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kindergarten", x => x.id);
+                    table.PrimaryKey("PK_Kindergarten", x => x.Id);
                 });
         }
 
@@ -47,6 +61,9 @@ namespace shop.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "FileToApis");
+
+            migrationBuilder.DropTable(
+                name: "FileToDatabase");
 
             migrationBuilder.DropTable(
                 name: "Kindergarten");
