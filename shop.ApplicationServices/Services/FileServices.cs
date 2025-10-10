@@ -37,7 +37,7 @@ namespace shop.ApplicationServices.Services
                 {
                     string uploadsFolder = Path.Combine(_webHost.ContentRootPath, "wwwroot", "multipleFileUpload");
 
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string uniqueFileName = file.FileName; // Guid.NewGuid().ToString() + "_" + file.FileName;
 
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
