@@ -2,7 +2,7 @@
 {
     public class KindergartenIndexViewModel
     {
-        public Guid id { get; set; }
+        public Guid? id { get; set; }
         public string? GroupName { get; set; }
         public int ChildrenCount { get; set; }
         public string? KindergartenName { get; set; }

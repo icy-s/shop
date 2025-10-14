@@ -36,7 +36,10 @@ namespace shop.ApplicationServices.Services
             kindergarten.CreatedAt = dto.CreatedAt;
             kindergarten.UpdatedAt = dto.UpdatedAt;
 
-            _fileServices.FilesToApi(dto, kindergarten);
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, kindergarten);
+            }
 
             await _context.Kindergarten.AddAsync(kindergarten);
             await _context.SaveChangesAsync();
@@ -84,7 +87,7 @@ namespace shop.ApplicationServices.Services
             domain.CreatedAt = dto.CreatedAt;
             domain.UpdatedAt = DateTime.Now;
 
-            _fileServices.FilesToApi(dto, domain);
+            _fileServices.UploadFilesToDatabase(dto, domain);
 
             _context.Kindergarten.Update(domain);
             await _context.SaveChangesAsync();

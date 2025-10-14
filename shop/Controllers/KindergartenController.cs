@@ -6,6 +6,7 @@ using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
 using shop.Models.Kindergarten;
+using System.Collections.Generic;
 
 namespace shop.Controllers
 {
@@ -63,13 +64,13 @@ namespace shop.Controllers
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Files = vm.Files,
-                FileToDatabaseDto = vm.Images
+                Image = vm.Image
                     .Select(x => new FileToDatabaseDto
                     {
                         Id = x.ImageId,
-                        ImageTitle = x.ImageTitle,
                         ImageData = x.ImageData,
-                        KindergartenId = x.KindergartenId
+                        ImageTitle = x.ImageTitle,
+                        KindergartenId = x.KindergartenId,
                     }).ToArray()
             };
 
@@ -93,13 +94,7 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToDatabase
-            .Where(x => x.KindergartenId == id)
-            .Select(y => new ImageViewModel
-            {
-                ImageData = y.ImageData,
-                ImageId = y.Id,
-            }).ToArrayAsync();
+            ImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new KindergartenDeleteViewModel();
 
@@ -137,13 +132,7 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToDatabase
-            .Where(x => x.KindergartenId == id)
-            .Select(y => new ImageViewModel
-            {
-                ImageData = y.ImageData,
-                ImageId = y.Id,
-            }).ToArrayAsync();
+            ImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new KindergartenCreateUpdateViewModel();
 
@@ -154,7 +143,7 @@ namespace shop.Controllers
             vm.TeacherName = kindergarten.TeacherName;
             vm.CreatedAt = kindergarten.CreatedAt;
             vm.UpdatedAt = kindergarten.UpdatedAt;
-            vm.Images.AddRange(images);
+            vm.Image.AddRange(images);
 
             return View("CreateUpdate", vm);
         }
@@ -172,12 +161,12 @@ namespace shop.Controllers
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = vm.UpdatedAt,
                 Files = vm.Files,
-                FileToDatabaseDto = vm.Images
+                Image = vm.Image
                     .Select(x => new FileToDatabaseDto
                     {
                         Id = x.ImageId,
-                        ImageTitle = x.ImageTitle,
                         ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
                         KindergartenId = x.KindergartenId
                     }).ToArray()
             };
@@ -202,13 +191,7 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToDatabase
-            .Where(x => x.KindergartenId == id)
-            .Select(y => new ImageViewModel
-            {
-                ImageData = y.ImageData,
-                ImageId = y.Id,
-            }).ToArrayAsync();
+            ImageViewModel[] images = await FilesFromDatabase(id);
 
             var vm = new KindergartenDetailsViewModel();
 
@@ -223,6 +206,7 @@ namespace shop.Controllers
 
             return View(vm);
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveImage(ImageViewModel vm)
         {
@@ -239,6 +223,22 @@ namespace shop.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ImageViewModel[]> FilesFromDatabase(Guid id)
+        {
+            var images = await _context.FileToDatabase
+                .Where(x => x.KindergartenId == id)
+                .Select(y => new ImageViewModel
+                {
+                    KindergartenId = y.KindergartenId,
+                    ImageId = y.Id,
+                    ImageData = y.ImageData,
+                    ImageTitle = y.ImageTitle,
+                    Image = string.Format("data:image/gif;base64, {0}", Convert.ToBase64String(y.ImageData))
+                }).ToArrayAsync();
+
+            return images;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model shop.Models.Kindergarten.KindergartenCreateUpdateViewModel
 
-@if (Model.Id != Guid.Empty)
+@if(Model.Id.HasValue)
 {
     <h1>Update</h1>
 }
@@ -52,13 +52,14 @@ else
             </div>
         </div>
 
-        @foreach (var images in Model.Images)
+        @foreach (var images in Model.Image)
         {
             <partial name="_Images" model="images" />
             <input asp-action="removeImage" asp-controller="kindergarten" asp-route-imageId="@images.ImageId" type="submit" class="btn btn-danger" value="Remove Image" />
         }
 
-        @if (Model.Id != Guid.Empty)
+        @if (Model.Id.HasValue)
+
         {
             <input asp-action="update" asp-controller="kindergarten" type="submit" class="btn btn-primary" value="Update" />
         }

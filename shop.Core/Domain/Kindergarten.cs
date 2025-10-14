@@ -8,7 +8,7 @@ namespace shop.Core.Domain
 {
     public class Kindergarten
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string? GroupName { get; set; }
         public int ChildrenCount { get; set; }
         public string? KindergartenName { get; set; }
