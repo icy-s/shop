@@ -57,11 +57,12 @@ namespace shop.ApplicationServices.Services
 
             var images = await _context.FileToApis
             .Where(x => x.KindergartenId == id)
-            .Select(y => new FileToApiDto
+            .Select(y => new FileToDatabaseDto
             {
                 Id = y.Id,
-                KindergartenId = y.KindergartenId,
-                ExistingFilePath = y.ExistingFilePath,
+                ImageData = y.ImageData,
+                ImageTitle = y.ImageTitle,
+                KindergartenId = y.KindergartenId
             }).ToArrayAsync();
 
             await _fileServices.RemoveImageFromDatabase(images);
