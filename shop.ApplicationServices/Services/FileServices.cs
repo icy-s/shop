@@ -57,7 +57,7 @@ namespace shop.ApplicationServices.Services
                 }
             }
         }
-        public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
+        /*public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             //meil on vaja leida file andmebaasist läbi id ülesse
             var imageId = await _context.FileToApis
@@ -76,7 +76,8 @@ namespace shop.ApplicationServices.Services
             await _context.SaveChangesAsync();
 
             return imageId;
-        }
+        }*/
+
         public void UploadFilesToDatabase(KindergartenDto dto, Kindergarten domain)
         {
             // ära kontrollimine, kas on üks fail või mitu
@@ -91,7 +92,6 @@ namespace shop.ApplicationServices.Services
                         {
                             Id = Guid.NewGuid(),
                             ImageTitle = file.FileName,
-                            ImageData = target.ToArray(),
                             KindergartenId = domain.Id
                         };
                         file.CopyTo(target);

@@ -55,7 +55,7 @@ namespace shop.ApplicationServices.Services
             var kindergarten = await _context.Kindergarten
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            var images = await _context.FileToApis
+            var images = await _context.FileToDatabase
             .Where(x => x.KindergartenId == id)
             .Select(y => new FileToDatabaseDto
             {
@@ -65,7 +65,7 @@ namespace shop.ApplicationServices.Services
                 KindergartenId = y.KindergartenId
             }).ToArrayAsync();
 
-            await _fileServices.RemoveImageFromDatabase(images);
+            await _fileServices.RemoveImagesFromDatabase(images);
 
             _context.Kindergarten.Remove(kindergarten);
             await _context.SaveChangesAsync();

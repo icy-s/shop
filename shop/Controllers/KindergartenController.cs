@@ -226,26 +226,18 @@ namespace shop.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveImage(ImageViewModel vm)
         {
-            //peate läbi viewModeli edastama Id dto -sse
-            //tuleb esile kustuda removeImageFromAppi meetod
-            //kui image on null, siis returib Index vaatele
-
-            // 1) Собираем dto из viewModel
             var dto = new FileToDatabaseDto()
             {
-                Id = vm.ImageId,
-                // SpaceshipId = vm.SpaceshipId,
-                // ExistingFilePath = vm.FilePath
+                Id = vm.ImageId
             };
 
-            // 2) Вызываем сервис удаления
-            var image = await _fileServices.RemoveImageFromApi(dto);
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
 
-            // 3) Если картинка не найдена → возврат к списку
             if (image == null)
+            {
                 return RedirectToAction(nameof(Index));
+            }
 
-            // 4) Если удалена успешно → тоже возврат к списку
             return RedirectToAction(nameof(Index));
         }
     }
