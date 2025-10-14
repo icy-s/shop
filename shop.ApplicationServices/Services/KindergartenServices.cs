@@ -64,7 +64,7 @@ namespace shop.ApplicationServices.Services
                 ExistingFilePath = y.ExistingFilePath,
             }).ToArrayAsync();
 
-            await _fileServices.RemoveImagesFromApi(images);
+            await _fileServices.RemoveImageFromDatabase(images);
 
             _context.Kindergarten.Remove(kindergarten);
             await _context.SaveChangesAsync();

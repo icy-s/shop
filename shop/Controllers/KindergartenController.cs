@@ -63,11 +63,12 @@ namespace shop.Controllers
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Files = vm.Files,
-                FileToApiDtos = vm.Images
-                    .Select(x => new FileToApiDto
+                FileToDatabaseDto = vm.Images
+                    .Select(x => new FileToDatabaseDto
                     {
                         Id = x.ImageId,
-                        ExistingFilePath = x.FilePath,
+                        ImageTitle = x.ImageTitle,
+                        ImageData = x.ImageData,
                         KindergartenId = x.KindergartenId
                     }).ToArray()
             };
@@ -92,11 +93,11 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToApis
+            var images = await _context.FileToDatabase
             .Where(x => x.KindergartenId == id)
             .Select(y => new ImageViewModel
             {
-                FilePath = y.ExistingFilePath,
+                ImageData = y.ImageData,
                 ImageId = y.Id,
             }).ToArrayAsync();
 
@@ -136,11 +137,11 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToApis
+            var images = await _context.FileToDatabase
             .Where(x => x.KindergartenId == id)
             .Select(y => new ImageViewModel
             {
-                FilePath = y.ExistingFilePath,
+                ImageData = y.ImageData,
                 ImageId = y.Id,
             }).ToArrayAsync();
 
@@ -171,11 +172,12 @@ namespace shop.Controllers
                 CreatedAt = vm.CreatedAt,
                 UpdatedAt = vm.UpdatedAt,
                 Files = vm.Files,
-                FileToApiDtos = vm.Images
-                    .Select(x => new FileToApiDto
+                FileToDatabaseDto = vm.Images
+                    .Select(x => new FileToDatabaseDto
                     {
                         Id = x.ImageId,
-                        ExistingFilePath = x.FilePath,
+                        ImageTitle = x.ImageTitle,
+                        ImageData = x.ImageData,
                         KindergartenId = x.KindergartenId
                     }).ToArray()
             };
@@ -200,11 +202,11 @@ namespace shop.Controllers
                 return NotFound();
             }
 
-            var images = await _context.FileToApis
+            var images = await _context.FileToDatabase
             .Where(x => x.KindergartenId == id)
             .Select(y => new ImageViewModel
             {
-                FilePath = y.ExistingFilePath,
+                ImageData = y.ImageData,
                 ImageId = y.Id,
             }).ToArrayAsync();
 
@@ -229,7 +231,7 @@ namespace shop.Controllers
             //kui image on null, siis returib Index vaatele
 
             // 1) Собираем dto из viewModel
-            var dto = new FileToApiDto()
+            var dto = new FileToDatabaseDto()
             {
                 Id = vm.ImageId,
                 // SpaceshipId = vm.SpaceshipId,

@@ -77,30 +77,6 @@ namespace shop.ApplicationServices.Services
 
             return imageId;
         }
-
-        public async Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDto[] dtos)
-        {
-            //foreach, mille sees toimub failide kustutamine
-            foreach (var dto in dtos)
-            {
-                var imageId = await _context.FileToApis
-                    .FirstOrDefaultAsync(x => x.Id == dto.Id);
-
-                var filePath = _webHost.ContentRootPath + "\\wwwroot\\multipleFileUpload\\"
-                    + imageId.ExistingFilePath;
-
-                //kui fail on olemas, siis kustuta ära
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
-
-                _context.FileToApis.Remove(imageId);
-                await _context.SaveChangesAsync();
-            }
-
-            return null;
-        }
         public void UploadFilesToDatabase(KindergartenDto dto, Kindergarten domain)
         {
             // ära kontrollimine, kas on üks fail või mitu
@@ -115,6 +91,7 @@ namespace shop.ApplicationServices.Services
                         {
                             Id = Guid.NewGuid(),
                             ImageTitle = file.FileName,
+                            ImageData = target.ToArray(),
                             KindergartenId = domain.Id
                         };
                         file.CopyTo(target);
@@ -124,6 +101,38 @@ namespace shop.ApplicationServices.Services
                     }
                 }
             }
+        }
+        public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
+        {
+            var imageId = await _context.FileToDatabase
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+            if (imageId != null)
+            {
+                _context.FileToDatabase.Remove(imageId);
+                await _context.SaveChangesAsync();
+
+                return imageId;
+            }
+
+            return null;
+        }
+
+        // Eemaldab kõik faile andmebaasist
+        public async Task<FileToDatabase> RemoveImagesFromDatabase(FileToDatabaseDto[] dtos)
+        {
+            foreach (var dto in dtos)
+            {
+                var imageId = await _context.FileToDatabase
+                    .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+                if (imageId != null)
+                {
+                    _context.FileToDatabase.Remove(imageId);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            return null;
         }
     }
 }
