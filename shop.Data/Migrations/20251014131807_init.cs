@@ -12,19 +12,6 @@ namespace shop.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "FileToApis",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExistingFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KindergartenId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FileToApis", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FileToDatabase",
                 columns: table => new
                 {
@@ -36,6 +23,19 @@ namespace shop.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileToDatabase", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FileToKindergarten",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExistingFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KindergartenId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileToKindergarten", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,10 +60,10 @@ namespace shop.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FileToApis");
+                name: "FileToDatabase");
 
             migrationBuilder.DropTable(
-                name: "FileToDatabase");
+                name: "FileToKindergarten");
 
             migrationBuilder.DropTable(
                 name: "Kindergarten");

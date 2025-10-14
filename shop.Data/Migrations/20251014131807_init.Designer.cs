@@ -12,7 +12,7 @@ using shop.Data;
 namespace shop.Data.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20251010144633_init")]
+    [Migration("20251014131807_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,23 +24,6 @@ namespace shop.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("shop.Core.Domain.FileToApi", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ExistingFilePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("KindergartenId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileToApis");
-                });
 
             modelBuilder.Entity("shop.Core.Domain.FileToDatabase", b =>
                 {
@@ -60,6 +43,23 @@ namespace shop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FileToDatabase");
+                });
+
+            modelBuilder.Entity("shop.Core.Domain.FileToKindergarten", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ExistingFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("KindergartenId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileToKindergarten");
                 });
 
             modelBuilder.Entity("shop.Core.Domain.Kindergarten", b =>
