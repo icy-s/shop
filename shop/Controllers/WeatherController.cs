@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using shop.Core.Dto;
 using shop.Core.ServiceInterface;
+using shop.Models.Weather;
 
 namespace shop.Controllers
 {
@@ -20,8 +22,24 @@ namespace shop.Controllers
         }
 
         [HttpPost]
-        public IActionResult SearchCity()
+        public IActionResult SearchCity(AccuWeatherSearchViewModel model)
         {
+            if(ModelState.IsValid)
+            {
+                return RedirectToAction("City", "Weather", new { city = model.CityName });
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult City(string city)
+        {
+            AccuLocationWeatherResultDto dto = new();
+            dto.CityName = city;
+
+            _weatherForecastServices.AccuWeatherResult(dto);
+
             return View();
         }
     }
