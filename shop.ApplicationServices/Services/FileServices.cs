@@ -4,7 +4,6 @@ using shop.Core.Domain;
 using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
-using shop.Data.Migrations;
 using System.Runtime.InteropServices;
 using RealEstate = shop.Core.Domain.RealEstate;
 
