@@ -35,6 +35,7 @@ namespace shop
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
