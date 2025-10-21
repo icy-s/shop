@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Nancy" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\shop.Core\shop.Core.csproj" />
     <ProjectReference Include="..\shop.Data\shop.Data.csproj" />
   </ItemGroup>
