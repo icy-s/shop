@@ -8,7 +8,7 @@ namespace shop.ApplicationServices.Services
     {
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResult(AccuLocationWeatherResultDto dto)
         {
-            string accuApiKey = "zpka_d7b50b4bf3d04ac28fb9a489397b9138_2bd9aa13";
+            string accuApiKey = "";
             string baseUrl = "https://dataservice.accuweather.com/forecasts/v1/daily/1day/";
 
             using (var httpClient = new HttpClient())
