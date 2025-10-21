@@ -40,7 +40,13 @@ namespace shop.Controllers
 
             _weatherForecastServices.AccuWeatherResult(dto);
 
-            return View();
+            AccuWeatherViewModel vm = new();
+
+            vm.TempMetricValueUnit = dto.TempMetricValueUnit;
+            vm.Text = dto.Text;
+            vm.EndDate = dto.EndDate;
+
+            return View(vm);
         }
     }
 }
