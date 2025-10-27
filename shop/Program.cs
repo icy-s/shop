@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using shop.ApplicationServices.Services;
 using shop.Core.ServiceInterface;
 using shop.Data;
+using ShopTARgv24.ApplicationServices.Services;
 
 namespace shop
 {
@@ -23,7 +24,8 @@ namespace shop
             builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
-            builder.Services.AddHttpClient<ChuckNorrisServices>();
+            builder.Services.AddHttpClient<ChuckNorrisServices>();  
+            builder.Services.AddScoped<ICocktailService, CocktailService>();
 
             var app = builder.Build();
 
