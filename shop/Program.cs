@@ -23,6 +23,7 @@ namespace shop
             builder.Services.AddScoped<ISpaceshipsServices, SpaceshipsServices>();
             builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
+            builder.Services.AddHttpClient<ChuckNorrisServices>();
 
             var app = builder.Build();
 

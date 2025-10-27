@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Chuck Norris Joke";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <button id="getJokeButton" class="btn btn-primary">Get Random Chuck Norris Joke</button>
+
+    <div id="jokeContainer" class="mt-3">
+        <p id="jokeText">Click the button to get a joke!</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const getJokeButton = document.getElementById('getJokeButton');
+        const jokeText = document.getElementById('jokeText');
+
+        getJokeButton.addEventListener('click', async function () {
+            const response = await fetch('/ChuckNorris/GetRandomJoke');
+            const data = await response.json();
+
+            jokeText.textContent = data.joke;
+        });
+    </script>
+}
