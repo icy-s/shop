@@ -43,6 +43,62 @@ namespace shop.ApplicationServices.Services
             }
         }
 
+        public async Task<OpenWeatherResultDto> OpenWeatherResult(OpenWeatherResultDto dto)
+        {
+            string openWeatherApiKey = "";
+            string url = $"https://api.openweathermap.org/data/2.5/weather?q={dto.CityName}&appid={openWeatherApiKey}&units=metric";
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Error fetching weather data from OpenWeatherMap");
+                }
+
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var weatherRoot = JsonSerializer.Deserialize<OpenWeatherRootDto>(jsonResponse, options);
+
+                if (weatherRoot == null)
+                {
+                    return dto;
+                }
+
+                var weatherDescription = weatherRoot.Weather?.FirstOrDefault();
+
+                dto.CityName = weatherRoot.Name;
+                dto.Country = weatherRoot.Sys?.Country;
+                dto.Temperature = weatherRoot.Main?.Temp;
+                dto.FeelsLike = weatherRoot.Main?.FeelsLike;
+                dto.TempMin = weatherRoot.Main?.TempMin;
+                dto.TempMax = weatherRoot.Main?.TempMax;
+                dto.Pressure = weatherRoot.Main?.Pressure;
+                dto.Humidity = weatherRoot.Main?.Humidity;
+                dto.WindSpeed = weatherRoot.Wind?.Speed;
+                dto.WeatherMain = weatherDescription?.Main;
+                dto.WeatherDescription = weatherDescription?.Description;
+                dto.Icon = weatherDescription?.Icon;
+
+                if (weatherRoot.Sys?.Sunrise.HasValue == true)
+                {
+                    dto.Sunrise = DateTimeOffset.FromUnixTimeSeconds(weatherRoot.Sys.Sunrise.Value);
+                }
+
+                if (weatherRoot.Sys?.Sunset.HasValue == true)
+                {
+                    dto.Sunset = DateTimeOffset.FromUnixTimeSeconds(weatherRoot.Sys.Sunset.Value);
+                }
+            }
+
+            return dto;
+        }
+
 
         public async Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto)
         {
