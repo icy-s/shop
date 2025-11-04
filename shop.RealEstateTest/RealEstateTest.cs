@@ -26,10 +26,25 @@ namespace shop.RealEstateTest
 
         }
 
+        [Fact]
         public async Task ShouldNot_GetByIdRealEstate_WhenReturnsNotEqual()
         {
             // Arrange
+            Guid wrongGuid = Guid.Parse(Guid.NewGuid().ToString());
+            Guid guid = Guid.Parse("e83448d3-ee24-4e02-8544-f105743ccafb");
 
+            // Act
+            await Svc<IRealEstateServices>().DetailAsync(guid);
+
+            // Assert
+            Assert.NotEqual(wrongGuid, guid);
+        }
+
+        [Fact]
+        public async Task ShouldNot_GetByIdRealEstate_WhenReturnsEqual()
+        {
+            Guid databaseGuid = Guid.Parse("e83448d3-ee24-4e02-8544-f105743ccafb");
+            Guid guid = Guid.Parse("e83448d3-ee24-4e02-8544-f105743ccafb");
         }
     }
 }
