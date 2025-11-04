@@ -24,7 +24,7 @@ namespace shop.RealEstateTest
         {
             services.AddScoped<IRealEstateServices, RealEstateServices>();
             services.AddScoped<IFileServices, FileServices>();
-            //services.AddScoped<IHostEnvironment, MockHostEnvironment>();
+            services.AddScoped<IHostEnvironment, MockHostEnvironment>();
 
             services.AddDbContext<ShopContext>(x =>
             {
