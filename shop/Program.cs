@@ -26,6 +26,7 @@ namespace shop
             builder.Services.AddScoped<IWeatherForecastServices, WeatherForecastServices>();
             builder.Services.AddHttpClient<ChuckNorrisServices>();  
             builder.Services.AddScoped<ICocktailService, CocktailService>();
+            builder.Services.AddScoped<IServiceCollection>();
 
             var app = builder.Build();
 
