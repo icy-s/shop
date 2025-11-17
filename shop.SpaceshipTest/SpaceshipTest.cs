@@ -2,7 +2,7 @@
 using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
-using shop.RealEstateTest;
+using shop.SpaceshipTest;
 
 namespace shop.SpaceshipTest
 {

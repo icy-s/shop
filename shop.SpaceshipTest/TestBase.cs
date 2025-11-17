@@ -5,10 +5,10 @@ using Microsoft.Extensions.Hosting;
 using shop.ApplicationServices.Services;
 using shop.Core.ServiceInterface;
 using shop.Data;
-using shop.RealEstateTest.Mock;
+using shop.SpaceshipTest.Mock;
 using ZendeskApi_v2.Requests;
 
-namespace shop.RealEstateTest
+namespace shop.SpaceshipTest
 {
     public abstract class TestBase
     {
