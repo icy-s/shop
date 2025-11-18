@@ -199,6 +199,55 @@ namespace shop.RealEstateTest
             });
         }
 
+        [Fact]
+        public async Task ShouldNot_GetRealEstate_WhenIdNotExists()
+        {
+            // Arrange
+            var fakeId = Guid.NewGuid();
+
+            // Act
+            var result = await Svc<IRealEstateServices>().DetailAsync(fakeId);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Should_UpdateRealEstate_ModifiedAtShouldChange()
+        {
+            // Arrange
+            var dto1 = MockRealEstateData();
+
+            var created = await Svc<IRealEstateServices>().Create(dto1);
+            var oldModified = created.ModifiedAt;
+
+            var dto = MockUpdateRealEstateData();
+
+            // Act
+            var updated = await Svc<IRealEstateServices>().Update(dto);
+
+            // Assert
+            Assert.Null(updated);
+            Assert.NotEqual(oldModified, updated.ModifiedAt);
+        }
+
+        [Fact]
+        public async Task ShouldNot_DeleteRealEstate_WhenIdNotExists()
+        {
+            // Arrange
+            var fakeId = Guid.NewGuid();
+
+            // Act
+            RealEstateDto result = null;
+            try
+            {
+                result = await Svc<IRealEstateServices>().Delete(fakeId);
+            }
+            catch
+            {
+
+            }
+        }
 
         private RealEstateDto MockRealEstateData()
         {
