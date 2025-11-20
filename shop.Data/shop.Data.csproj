@@ -24,8 +24,4 @@
     <ProjectReference Include="..\shop.Core\shop.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>
