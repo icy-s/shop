@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using shop.ApplicationServices.Services;
 using shop.Core.Domain;
 using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
 using shop.Models.RealEstate;
-using shop.Models.Spaceships;
 
 namespace shop.Controllers
 {
@@ -108,7 +105,7 @@ namespace shop.Controllers
 
             if (realestate == null)
             {
-                return NotFound();
+                return View("NotFound");
             }
 
             var photos = await ImageShowcase(id);
@@ -135,7 +132,7 @@ namespace shop.Controllers
 
             if (deleted == null)
             {
-                return NotFound();
+                return View("NotFound");
             }
 
             return RedirectToAction(nameof(Index));
@@ -148,7 +145,7 @@ namespace shop.Controllers
 
             if (update == null)
             {
-                return NotFound();
+                return View("NotFound");
             }
 
             var photos = await ImageShowcase(id);
@@ -170,6 +167,11 @@ namespace shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(RealEstateCreateUpdateViewModel vm)
         {
+            if(!ModelState.IsValid)
+            {
+                return View("CreateUpdate", vm);
+            }
+
             var dto = new RealEstateDto()
             {
                 Id = vm.Id,
@@ -207,7 +209,7 @@ namespace shop.Controllers
 
             if (realestate == null)
             {
-                return NotFound();
+                return View("NotFound", id);
             }
 
             var photos = await ImageShowcase(id);
