@@ -5,6 +5,7 @@ using shop.Core.Dto;
 using shop.Core.ServiceInterface;
 using shop.Data;
 using shop.Models.RealEstate;
+using shop.Models.Spaceships;
 
 namespace shop.Controllers
 {
@@ -226,6 +227,26 @@ namespace shop.Controllers
             vm.Image.AddRange(photos);
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage(ImageViewModel vm)
+        {
+            var dto = new FileToDatabaseDto()
+            {
+                Id = vm.ImageId,
+            };
+
+            var image = await _fileServices.RemoveImageFromDatabase(dto);
+
+            var realEstateId = image.RealEstateId;
+
+            if (image == null)
+            { 
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Update), new { id = realEstateId});
         }
     }
 }
