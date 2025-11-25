@@ -84,7 +84,10 @@ namespace shop.ApplicationServices.Services
                 domain.CreatedAt = DateTime.Now;
                 domain.ModifiedAt = DateTime.Now;
 
-                _fileServices.UploadFilesToDatabase(dto, domain);
+                if (dto.Files != null)
+                {
+                    _fileServices.UploadFilesToDatabase(dto, domain);
+                }
 
                 _context.RealEstates.Update(domain);
                 await _context.SaveChangesAsync();
