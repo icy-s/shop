@@ -3,10 +3,11 @@ using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using shop.Core.Dto;
+using shop.Core.ServiceInterface;
 
 namespace shop.ApplicationServices.Services
 {
-    public class EmailServices
+    public class EmailServices : IEmailServices
     {
         private readonly IConfiguration _config;
         public EmailServices
