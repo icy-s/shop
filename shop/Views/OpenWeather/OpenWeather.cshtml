@@ -1,0 +1,93 @@
+﻿@model shop.Models.Weather.OpenWeatherViewModel
+
+@{
+    ViewData["Title"] = "OpenWeatherMap";
+}
+
+<h1 class="mb-4">OpenWeatherMap forecast</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="OpenWeather" method="post" class="card card-body mb-4">
+            <h2 class="h4">Search current weather</h2>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="CityName" class="form-label"></label>
+                <input asp-for="CityName" class="form-control" placeholder="Enter city name" />
+                <span asp-validation-for="CityName" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Get forecast</button>
+        </form>
+    </div>
+</div>
+
+@if (Model != null && Model.HasResult)
+{
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title">
+                @Model.CityName
+                @if (!string.IsNullOrWhiteSpace(Model.Country))
+                {
+                    <span class="text-muted">(@Model.Country)</span>
+                }
+            </h2>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="display-4">@Model.Temperature?.ToString("0.0")°C</div>
+                    @if (!string.IsNullOrWhiteSpace(Model.WeatherMain))
+                    {
+                        <div class="lead">@Model.WeatherMain</div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.WeatherDescription))
+                    {
+                        <div class="text-muted text-capitalize">@Model.WeatherDescription</div>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Feels like</dt>
+                        <dd class="col-sm-8">@Model.FeelsLike?.ToString("0.0") °C</dd>
+
+                        <dt class="col-sm-4">Min / Max</dt>
+                        <dd class="col-sm-8">@Model.TempMin?.ToString("0.0") °C / @Model.TempMax?.ToString("0.0") °C</dd>
+
+                        <dt class="col-sm-4">Humidity</dt>
+                        <dd class="col-sm-8">@(Model.Humidity.HasValue ? $"{Model.Humidity}%" : string.Empty)</dd>
+
+                        <dt class="col-sm-4">Pressure</dt>
+                        <dd class="col-sm-8">@(Model.Pressure.HasValue ? $"{Model.Pressure} hPa" : string.Empty)</dd>
+
+                        <dt class="col-sm-4">Wind</dt>
+                        <dd class="col-sm-8">@(Model.WindSpeed.HasValue ? $"{Model.WindSpeed} m/s" : string.Empty)</dd>
+
+                        @if (Model.Sunrise.HasValue)
+                        {
+                            <dt class="col-sm-4">Sunrise</dt>
+                            <dd class="col-sm-8">@Model.Sunrise.Value.ToLocalTime().ToString("HH:mm")</dd>
+                        }
+
+                        @if (Model.Sunset.HasValue)
+                        {
+                            <dt class="col-sm-4">Sunset</dt>
+                            <dd class="col-sm-8">@Model.Sunset.Value.ToLocalTime().ToString("HH:mm")</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger" role="alert">
+        Unable to display weather information.
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

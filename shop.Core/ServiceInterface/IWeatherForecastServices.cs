@@ -5,5 +5,6 @@ namespace shop.Core.ServiceInterface
     public interface IWeatherForecastServices
     {
         Task<AccuLocationWeatherResultDto> AccuWeatherResultWebClient(AccuLocationWeatherResultDto dto);
+        Task<OpenWeatherResultDto> OpenWeatherResult(OpenWeatherResultDto dto);
     }
 }
