@@ -34,6 +34,7 @@ namespace ShopTARgv24.Controllers
                 {
                     Id = x.Id,
                     Area = x.Area,
+                    Location = x.Location,
                     BuildingType = x.BuildingType,
                     RoomNumber = x.RoomNumber,
                 });
