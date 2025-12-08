@@ -4,6 +4,9 @@ using shop.Core.ServiceInterface;
 using shop.Data;
 using ShopTARgv24.ApplicationServices.Services;
 using shop.Hubs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using shop.Core.Domain;
 
 namespace shop
 {
@@ -16,8 +19,13 @@ namespace shop
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR();
-
-            //builder.Services.AddScoped<SpaceshipServices>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequiredLength = 6;
+                })
+                .AddEntityFrameworkStores<ShopContext>()
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation");
 
             builder.Services.AddDbContext<ShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -48,6 +56,7 @@ namespace shop
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 
