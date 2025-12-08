@@ -20,7 +20,7 @@ namespace shop.ApplicationServices.Services
         public void SendEmail(EmailDto dto)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUserName").Value));
+            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
             email.To.Add(MailboxAddress.Parse(dto.To));
             email.Subject = dto.Subject;
 
@@ -56,11 +56,11 @@ namespace shop.ApplicationServices.Services
             dto.Token = token;
             var email = new MimeMessage();
 
-            _config.GetSection("EmailUserName").Value = "sinu email";
             _config.GetSection("EmailHost").Value = "smtp.gmail.com";
-            _config.GetSection("EmailPassword").Value = "teie password";
+            _config.GetSection("EmailUsername").Value = "";
+            _config.GetSection("EmailPassword").Value = "";
 
-            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUserName").Value));
+            email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
             email.To.Add(MailboxAddress.Parse(dto.To));
             email.Subject = dto.Subject;
             var builder = new BodyBuilder
