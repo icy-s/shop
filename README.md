@@ -1,52 +1,52 @@
-📌 Modular Full-Stack Web Application (ASP.NET Core)
+# Modular Full-Stack Web Application (ASP.NET Core)
 
-A multi-feature full-stack web application created to practice real-world development scenarios. The project includes API integrations, database operations, authentication flows, real-time communication, and modular UI pages built under a unified solution.
+This project is a multi-feature **full-stack web application** built with **ASP.NET Core MVC**, created to explore and practice real-world development concepts.  
+It includes several modular pages, each demonstrating different technologies such as API integrations, SQL databases, authentication, email services, and real-time communication.
 
-🚀 Features
-🔹 API Integrations
+---
 
-Weather API (OpenWeather)
+## 🚀 Features
 
-Chuck Norris jokes API
+### 🔹 **API Integrations**
+Modules that fetch and display data from external REST APIs:
+- Weather API (OpenWeather)
+- Chuck Norris jokes API
+- Cocktail recipes API
+- Spacecraft information API  
+Each module handles JSON responses, asynchronous HTTP requests, and error handling.
 
-Cocktail recipes API
+### 🔹 **Database Modules (SQL Server + EF Core)**
+- Real Estate listing system (CRUD)
+- Spaceship inventory management  
+Uses **Entity Framework Core**, migrations, and LINQ queries.
 
-Spaceships API (custom practice service)
+### 🔹 **Authentication & User Management**
+- User registration and login  
+- Email confirmation flow  
+- Secure password hashing  
+- Account management pages
 
-🔹 Database & Backend Logic
+### 🔹 **Email Service (SMTP)**
+- Sends confirmation and notification emails  
+- Configurable SMTP settings (host, port, SSL, credentials)
 
-SQL Server integration with Entity Framework Core
+### 🔹 **Real-Time Communication (SignalR)**
+- Live chat module demonstrating WebSocket-based messaging  
+- Updates messages instantly without page reloads
 
-Real Estate module with CRUD operations
+### 🔹 **Modular Navigation**
+Each feature is separated into its own section but unified under one MVC solution.
 
-User management and authentication
+---
 
-Logging and error handling
+## 🛠️ Tech Stack
 
-🔹 Real-Time Communication
-
-SignalR Chat with live message updates
-
-🔹 Email Functionality
-
-SMTP email sending
-
-Registration + email confirmation workflow
-
-🔹 Other modules
-
-Modular navigation with multiple independent pages
-
-Clean MVC architecture
-
-Strong separation of responsibilities
-
-🛠 Tech Stack
-Area	Technologies
-Backend	ASP.NET Core MVC, C#, EF Core
-Database	SQL Server, LINQ, Migrations
-Frontend	Razor Pages, Bootstrap
-Real-Time	SignalR
-External APIs	REST integrations (JSON)
-Communication	SMTP email sending
-Tools	Visual Studio, SSMS, Git
+| Category | Technologies |
+|----------|--------------|
+| **Backend** | C#, ASP.NET Core MVC, Entity Framework Core |
+| **Database** | SQL Server, SSMS, Migrations, LINQ |
+| **Frontend** | Razor Views, HTML/CSS, Bootstrap |
+| **Real-Time** | SignalR |
+| **APIs** | RESTful integrations, JSON |
+| **Email** | SMTP + MailKit / System.Net.Mail |
+| **Tools** | Visual Studio, Git, SSMS |
