@@ -7,6 +7,7 @@ using shop.Hubs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using shop.Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace shop
 {
@@ -39,6 +40,8 @@ namespace shop
             builder.Services.AddScoped<IEmailServices, EmailServices>();
 
             var app = builder.Build();
+
+            app.MapControllers().RequireAuthorization();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

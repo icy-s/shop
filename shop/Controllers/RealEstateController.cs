@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using shop.Core.Domain;
 using shop.Core.Dto;
@@ -6,9 +7,9 @@ using shop.Core.ServiceInterface;
 using shop.Data;
 using shop.Models.RealEstate;
 
-
 namespace ShopTARgv24.Controllers
 {
+    [Authorize]
     public class RealEstateController : Controller
     {
         private readonly ShopContext _context;
@@ -27,6 +28,7 @@ namespace ShopTARgv24.Controllers
             _fileServices = fileServices;
         }
 
+        //[Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var result = _context.RealEstates
