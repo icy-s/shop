@@ -186,22 +186,22 @@ namespace shop.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
+        [Authorize]
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> ChangePassword()
         {
             return View();
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ChangePasswordConfirmation()
+        {
+            return View();
+        }
+
+        [Authorize]
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -230,6 +230,11 @@ namespace shop.Controllers
             }
 
             return View(model);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

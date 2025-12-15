@@ -5,6 +5,7 @@ using shop.Models;
 
 namespace shop.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,14 +14,10 @@ namespace shop.Controllers
         {
             _logger = logger;
         }
-
-        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
-
-        [Authorize]
         public IActionResult Chat()
         {
             return View();
@@ -29,7 +26,6 @@ namespace shop.Controllers
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

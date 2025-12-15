@@ -1,13 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using shop.ApplicationServices.Services;
-using shop.Core.ServiceInterface;
-using shop.Data;
-using ShopTARgv24.ApplicationServices.Services;
-using shop.Hubs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using shop.ApplicationServices.Services;
 using shop.Core.Domain;
-using Microsoft.AspNetCore.Authorization;
+using shop.Core.ServiceInterface;
+using shop.Data;
+using shop.Hubs;
+using ShopTARgv24.ApplicationServices.Services;
 
 namespace shop
 {
@@ -18,7 +19,14 @@ namespace shop
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
             builder.Services.AddSignalR();
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
@@ -58,8 +66,8 @@ namespace shop
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 
