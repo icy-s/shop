@@ -112,24 +112,24 @@ namespace shop.Controllers
                 return View("NotFound");
             }
             var result = await _userManager.ConfirmEmailAsync(user, token);
-                List<string> errordatas =
-                       [
-                        "Area", "Accounts",
+            List<string> errordatas =
+                   [
+                    "Area", "Accounts",
                         "Issue", "Success",
                         "StatusMessage", "Registration Success",
                         "ActedOn", $"{user.Email}",
                         "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
-                    ];
-                if(result.Succeeded)
-                { 
-                    errordatas =
-                       [
-                        "Area", "Accounts",
+                ];
+            if (result.Succeeded)
+            {
+                errordatas =
+                   [
+                    "Area", "Accounts",
                         "Issue", "Success",
                         "StatusMessage", "Registration Success",
                         "ActedOn", $"{user.Email}",
                         "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]\n[password hidden]"
-                       ];
+                   ];
                 ViewBag.ErrorDatas = errordatas;
                 return View();
             }
@@ -137,7 +137,7 @@ namespace shop.Controllers
             ViewBag.ErrorDatas = errordatas;
             ViewBag.ErrorTitle = "Email cannot be confirmed";
             ViewBag.ErrorMessage = $"The user's email, with userId of {userId}, cannot be confirmed.";
-            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpGet]
@@ -235,6 +235,80 @@ namespace shop.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResetLink = Url.Action("ResetPassword", "Accounts", new { email = model.Email, token = token }, Request.Scheme);
+
+                    var emailDto = new EmailDto
+                    {
+                        To = model.Email,
+                        Subject = "Reset your password",
+                        Body = $"Please reset your password by clicking <a href='{passwordResetLink}'>here</a>"
+                    };
+
+                    _emailServices.SendEmail(emailDto);
+
+                    return View("ForgotPasswordConfirmation");
+                }
+                return View("ForgotPasswordConfirmation");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        if (await _userManager.IsLockedOutAsync(user))
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        }
+                        return View("ResetPasswordConfirmation");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(model);
+                }
+                return View("ResetPasswordConfirmation");
+            }
+            return View(model);
         }
     }
 }
