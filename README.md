@@ -1,3 +1,5 @@
+<img src="for-readme.png" alt="Project Banner">
+
 # Modular Full-Stack Web Application (ASP.NET Core)
 
 This project is a multi-feature **full-stack web application** built with **ASP.NET Core MVC**, created to explore and practice real-world development concepts.  
