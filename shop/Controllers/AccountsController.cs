@@ -275,19 +275,7 @@ namespace shop.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string email, string token)
-        {
-            if (token == null || email == null)
-            {
-                ModelState.AddModelError("", "Invalid password reset token");
-            }
-
-            return View();
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> ResetPasswordConfirmation()
+        public IActionResult ResetPassword()
         {
             return View();
         }
