@@ -57,8 +57,8 @@ namespace shop.ApplicationServices.Services
             var email = new MimeMessage();
 
             _config.GetSection("EmailHost").Value = "smtp.gmail.com";
-            _config.GetSection("EmailUsername").Value = "";
-            _config.GetSection("EmailPassword").Value = "";
+            _config.GetSection("EmailUsername").Value = "evgeny.tailov@gmail.com";
+            _config.GetSection("EmailPassword").Value = "htpy czpd sjcj jkli";
 
             email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
             email.To.Add(MailboxAddress.Parse(dto.To));
