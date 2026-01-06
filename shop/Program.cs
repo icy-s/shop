@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using shop.ApplicationServices.Services;
@@ -40,6 +39,16 @@ namespace shop
                 .AddEntityFrameworkStores<ShopContext>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("CustomEmailConfirmation");
+
+            builder.Services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]
+                        ?? throw new InvalidOperationException("Google ClientId not found.");
+
+                    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]
+                        ?? throw new InvalidOperationException("Google ClientSecret not found.");
+                });
 
             builder.Services.AddDbContext<ShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
