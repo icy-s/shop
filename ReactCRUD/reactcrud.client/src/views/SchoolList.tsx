@@ -46,10 +46,10 @@ function SchoolList() {
                         <td>{school.address}</td>
                         <td>{school.studentCount}</td>
                         <td>
-                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/details/${school.id}`)}>
+                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/schoolDetails/${school.id}`)}>
                                 View Details
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/delete/${school.id}`)}>
+                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/schoolDelete/${school.id}`)}>
                                 Delete
                             </button>
                         </td>

@@ -17,6 +17,7 @@ function SchoolDetail() {
             console.error("Fetch error:", error);
         }
     }, [id]);
+
     useEffect(() => {
         (async () => {
             await fetchSchool();
