@@ -5,5 +5,6 @@ namespace ReactCRUD.Core.ServiceInterface
     public interface SchoolInterface
     {
         Task<School> SchoolDetail(Guid id);
+        Task<School> SchoolDelete(Guid id);
     }
 }

@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { School } from "../types/school";
-
+import { useParams, useNavigate } from "react-router-dom";
 function SchoolList() {
     const [schools, setSchools] = useState<School[]>([]);
+    const navigate = useNavigate();
 
     const fetchSchools = useCallback(async () => {
         try {
@@ -17,11 +18,13 @@ function SchoolList() {
     }, []);
 
     useEffect(() => {
-
-        (async () => {
-            await fetchSchools();
-        })();
-    }, [fetchSchools]);
+        const fetchSchools = async () => {
+            const response = await fetch("/api/school");
+            const data = await response.json();
+            setSchools(data);
+        };
+        fetchSchools();
+    }, []);
 
     return (
     <table>
@@ -42,7 +45,15 @@ function SchoolList() {
                         <td>{school.name}</td>
                         <td>{school.address}</td>
                         <td>{school.studentCount}</td>
-                        <td><a href={`/school/${school.id}`}>Detail</a></td>
+                        <td>
+                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/details/${school.id}`)}>
+                                View Details
+                            </button>
+                            <button type="button" className="btn btn-primary" onClick={() => navigate(`/delete/${school.id}`)}>
+                                Delete
+                            </button>
+                        </td>
+
                     </tr>
                 ))}
             </tbody>

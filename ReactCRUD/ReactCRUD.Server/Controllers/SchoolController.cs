@@ -48,14 +48,25 @@ namespace ReactCRUD.Server.Controllers
             }
 
             var result = new SchoolDetailViewModel
-                {
-                    Id = school.Result.Id,
-                    Name = school.Result.Name,
-                    Address = school.Result.Address,
-                    StudentCount = school.Result.StudentCount,
-                };
+            {
+                Id = school.Result.Id,
+                Name = school.Result.Name,
+                Address = school.Result.Address,
+                StudentCount = school.Result.StudentCount,
+            };
 
             return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            var school = _schoolService.SchoolDelete(id);
+            if (school == null)
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
     }
 }

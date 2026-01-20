@@ -21,5 +21,18 @@ namespace ReactCRUD.ApplicationServices.Services
 
             return result;
         }
+
+        public async Task<School> SchoolDelete(Guid id)
+        {
+            var school = await _context.Schools
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (school != null)
+            {
+                _context.Schools.Remove(school);
+                await _context.SaveChangesAsync();
+            }
+            return school!;
+        }
     }
 }
